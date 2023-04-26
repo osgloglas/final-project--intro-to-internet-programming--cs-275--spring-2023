@@ -53,13 +53,13 @@ let lintCSS = () => {
             reporters: [
                 {formatter: `string`, console: true}
             ]}))
-        .pipe(dest(`temp/styles`));
+        .pipe(dest(`temp/css`));
 };
 
 let compressCSS = () => {
     return src(`dev/css/*.css`)
         .pipe(cssCompressor())
-        .pipe(dest(`prod/styles`));
+        .pipe(dest(`prod/css`));
 };
 
 let lintJS = () => {
@@ -72,20 +72,20 @@ let lintJS = () => {
             console.log(`# Warnings: ${result.warningCount}`);
             console.log(`# Errors: ${result.errorCount}`);
         }))
-        .pipe(dest(`temp/scripts`));
+        .pipe(dest(`temp/js`));
 };
 
 let transpileJS = () => {
     return src(`dev/js/*.js`)
         .pipe(jsTranspiler())
-        .pipe(dest(`temp/scripts`));
+        .pipe(dest(`temp/js`));
 };
 
 let fixJS = () => {
     return src(`dev/js/*.js`)
         .pipe(jsTranspiler())
         .pipe(jsCompressor())
-        .pipe(dest(`prod/scripts`));
+        .pipe(dest(`prod/js`));
 };
 
 let gulpLint = () => {
