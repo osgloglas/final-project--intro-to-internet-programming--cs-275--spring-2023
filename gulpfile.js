@@ -22,7 +22,7 @@ let browserHost = () => {
         open: true,
     });
 
-    watch(`dev/html/*.html`, series(copyFiles)).on(`change`, sync.reload);
+    watch(`dev/html/*.html`, series(copyHTML)).on(`change`, sync.reload);
     watch(`dev/js/*.js`, series(lintJS, transpileJS)).on(`change`, sync.reload);
     watch(`dev/css/*.css`, series(lintCSS)).on(`change`, sync.reload);
 };
@@ -86,9 +86,14 @@ let gulpLint = () => {
         }));
 };
 
-let copyFiles = () => {
+let copyHTML = () => {
     return src(`dev/html/*html`)
         .pipe(dest(`temp`));
+};
+
+let copyCSS = () => {
+    return src(`dev/css/reset.css`)
+        .pipe(dest(`temp/css`));
 };
 
 //export
@@ -96,7 +101,8 @@ exports.default = series(
     lintCSS,
     lintJS,
     transpileJS,
-    copyFiles,
+    copyHTML,
+    copyCSS,
     browserHost
 );
 
