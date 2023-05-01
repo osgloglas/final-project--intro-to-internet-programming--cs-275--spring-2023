@@ -1,5 +1,5 @@
 //dependencies
-const { src, dest, series } = require(`gulp`);
+const { src, dest, series, watch } = require(`gulp`);
 const htmlCompressor = require(`gulp-htmlmin`);
 const cssLinter = require(`gulp-stylelint`);
 const jsTranspiler = require(`gulp-babel`);
@@ -11,34 +11,20 @@ const sync = require(`browser-sync`);
 //functions
 let browserChoice = `default`;
 
-let browserRefresh = () => {
-    sync({
+let browserHost = () => {
+    sync.init({
         notify: true,
         reloadDelay: 50,
         browser: browserChoice,
         server: {
-            baseDir: [
-                `temp`,
-            ]
-        }
-    });
-};
-
-let browserHost = () => {
-    sync.init({
-        server: {
-            baseDir: `./`,
+            baseDir: `./temp`,
         },
         port: 3000,
-        notify: false,
         open: true,
     });
-};
-
-let compressHTMLDev = () => {
-    return src(`dev/html/*.html`)
-        .pipe(htmlCompressor({collapseWhitespace:true}))
-        .pipe(dest(`temp`));
+    watch(`dev/html/*.html`, series(copyFiles)).on(`change`, sync.reload);
+    watch(`dev/js/*.js`, series(lintJS, transpileJS)).on(`change`, sync.reload);
+    watch(`dev/css/*.css`, series(lintCSS)).on(`change`, sync.reload);
 };
 
 let compressHTMLProd = () => {
@@ -100,13 +86,17 @@ let gulpLint = () => {
         }));
 };
 
+let copyFiles = () => {
+    return src(`dev/html/*html`)
+        .pipe(dest(`temp/html`));
+};
+
 //export
 exports.default = series(
     lintCSS,
     lintJS,
     transpileJS,
-    compressHTMLDev,
-    browserRefresh,
+    copyFiles,
     browserHost
 );
 
