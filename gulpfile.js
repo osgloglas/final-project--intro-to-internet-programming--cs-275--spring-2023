@@ -103,8 +103,7 @@ exports.default = series(
 exports.build = series(
     compressHTMLProd,
     compressCSS,
-    fixJS,
-    browserHost
+    fixJS
 );
 
 //gulp lint
