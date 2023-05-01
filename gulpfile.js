@@ -19,9 +19,9 @@ let browserHost = () => {
         server: {
             baseDir: `./temp`,
         },
-        port: 3000,
         open: true,
     });
+
     watch(`dev/html/*.html`, series(copyFiles)).on(`change`, sync.reload);
     watch(`dev/js/*.js`, series(lintJS, transpileJS)).on(`change`, sync.reload);
     watch(`dev/css/*.css`, series(lintCSS)).on(`change`, sync.reload);
@@ -88,7 +88,7 @@ let gulpLint = () => {
 
 let copyFiles = () => {
     return src(`dev/html/*html`)
-        .pipe(dest(`temp/html`));
+        .pipe(dest(`temp`));
 };
 
 //export
