@@ -31,7 +31,7 @@ const printMatrix = (matrix) => {
             if (i + j === matrix.length - 1)
             {
                 // eslint-disable-next-line max-len
-                tableHtml += `<td style="background-color: yellow;">${matrix[i][j]}</td>`;
+                tableHtml += `<td style="background-color: #fa7fac;">${matrix[i][j]}</td>`;
                 tempArray[i] = matrix[i][j];
             }
             else
@@ -53,7 +53,7 @@ const printReversedMatrix = (matrix) => {
             if (i + j === matrix.length - 1)
             {
                 // eslint-disable-next-line max-len
-                tableHtml += `<td style="background-color: yellow;">${tempArray[matrix.length - 1 - i]}</td>`;
+                tableHtml += `<td style="background-color: #fa7fac;">${tempArray[matrix.length - 1 - i]}</td>`;
             }
             else
             {
